@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 const props = defineProps({
-  categories: { type: Array, required: true } 
+  categories: { type: Array, required: true }
 })
-const selectedValue = ref(0)
+const selectedValue = ref('0')
 const emit = defineEmits(['filter-changed'])
 const filterChanged = function(value) {
   selectedValue.value = value
@@ -13,7 +13,7 @@ const filterChanged = function(value) {
 
 <template>
   <span class="main-sub">
-    <span :class="[ selectedValue === '' ? 'active' : 'sub' ]">
+    <span :class="[ selectedValue === '0' ? 'active' : 'sub' ]">
       <sub class="text" @click=" filterChanged('')">All</sub>
     </span>
     <span :class="[ selectedValue === category.id ? 'active' : 'sub' ]" v-for="category in props.categories" :key="category.id">
