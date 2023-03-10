@@ -4,7 +4,9 @@ import Trending from './views/Trending.vue'
 
 <template>
   <main>
-    <Trending />
+    <Suspense>
+      <Trending />
+    </Suspense>
   </main>
 </template>
 

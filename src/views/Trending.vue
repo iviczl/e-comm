@@ -5,17 +5,19 @@ import BadgeFilter from '../components/BadgeFilter.vue';
 import ProductCard from '../components/ProductCard.vue'
 import { useProductStore } from '@/stores/product';
 
+const store = useProductStore()
+await store.loadProducts()
 const categories = [
   { id: '1', title: 'Category 1' },
   { id: '2', title: 'Category 2' },
   { id: '3', title: 'Category 3' },
 ]
-const badges = [ 'New', 'Discount' ]
+const badges = ref([ 'New', 'Discount' ])
 const selectedCategory = ref('')
 const selectedBadge = ref('')
 const filteredProducts = computed(() => {
   // console.log(products.values())
-  return useProductStore().products.filter(p => (selectedCategory.value === '' || p.category.id === selectedCategory.value) && 
+  return store.products.filter(p => (selectedCategory.value === '' || p.category.id === selectedCategory.value) && 
   (selectedBadge.value === '' || p.badges.some(b => b.title === selectedBadge.value) || (selectedBadge.value === 'Discount' && typeof p.price.special === 'number')))  
 })
 
@@ -36,7 +38,7 @@ const badgeChanged = (badge) => {
       <CategoryFilter :categories="categories" @filter-changed="categoryChanged"/>
       <span class="filter">
         <a class="more-products">More products</a>
-        <BadgeFilter @filter-changed="badgeChanged" />
+        <BadgeFilter :badges="badges" @filter-changed="badgeChanged" />
       </span>
     </article>
     <article class="product-cards">

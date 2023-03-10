@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+const props = defineProps({
+  badges: { type: Array, required: true }
+})
 let selectedValue = ref('')
 const emit = defineEmits(['filter-changed'])
 const filterChanged = function(value) {
@@ -10,8 +13,9 @@ const filterChanged = function(value) {
 <template>
   <select class="dropdown" @change="filterChanged($event.target.value)">
     <option value="">filter</option>
-    <option value="New">New</option>
-    <option value="Discount">Discount</option>
+    <option v-for="badge in badges" :key="badge" :value="badge">{{ badge }}</option>
+    <!-- <option value="New">New</option>
+    <option value="Discount">Discount</option> -->
   </select>
 </template>
 
