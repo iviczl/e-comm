@@ -276,7 +276,7 @@ const badgeChanged = (badge) => {
   flex: none;
   order: 0;
   flex-grow: 0;
-  cursor: url(../assets/mouse_hover.svg), auto;
+  cursor: url(../assets/mouse_hover.svg) 9 0, auto;
 }
 }
 
