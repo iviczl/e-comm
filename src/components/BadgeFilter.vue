@@ -67,6 +67,7 @@ const filterChanged = function(value) {
     flex: none;
     order: 1;
     flex-grow: 0;  
+    cursor: url(../assets/mouse_hover.svg), auto;
   }
 }
 </style>

@@ -133,7 +133,7 @@ const colorChanged = (color) => {}
   /* Inside auto layout */
   flex: none;
   order: 0;
-  flex-grow: 0;  
+  flex-grow: 0;
 }
 @media (min-width: 1600px) {
   .badges {
@@ -192,6 +192,7 @@ const colorChanged = (color) => {}
     flex: none;
     /* order: 0; */
     flex-grow: 0;
+    cursor: url(../assets/mouse_hover.svg), auto;
   }
   .image {
     width: 357px;

@@ -13,8 +13,8 @@ const filterChanged = function(value) {
 
 <template>
   <span class="main-sub">
-    <span :class="[ selectedValue === 0 ? 'active' : 'sub' ]">
-      <sub class="text" @click=" filterChanged(0)">All</sub>
+    <span :class="[ selectedValue === '' ? 'active' : 'sub' ]">
+      <sub class="text" @click=" filterChanged('')">All</sub>
     </span>
     <span :class="[ selectedValue === category.id ? 'active' : 'sub' ]" v-for="category in props.categories" :key="category.id">
       <sub class="text" @click="filterChanged(category.id)">{{ category.title }}</sub>
@@ -109,6 +109,7 @@ const filterChanged = function(value) {
     flex: none;
     order: 0;
     flex-grow: 0;
+    cursor: url(../assets/mouse_hover.svg), auto;
   }
   .sub {
     display: flex;

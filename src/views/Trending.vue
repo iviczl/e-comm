@@ -1,21 +1,30 @@
 <script setup>
+import { computed, ref } from '@vue/reactivity';
 import CategoryFilter from '../components/CategoryFilter.vue';
 import BadgeFilter from '../components/BadgeFilter.vue';
 import ProductCard from '../components/ProductCard.vue'
 import { useProductStore } from '@/stores/product';
 
 const categories = [
-  { id: 1, title: 'Category 1' },
-  { id: 2, title: 'Category 2' },
-  { id: 3, title: 'Category 3' },
+  { id: '1', title: 'Category 1' },
+  { id: '2', title: 'Category 2' },
+  { id: '3', title: 'Category 3' },
 ]
-
 const badges = [ 'New', 'Discount' ]
-const products = useProductStore().products
+const selectedCategory = ref('')
+const selectedBadge = ref('')
+const filteredProducts = computed(() => {
+  // console.log(products.values())
+  return useProductStore().products.filter(p => (selectedCategory.value === '' || p.category.id === selectedCategory.value) && 
+  (selectedBadge.value === '' || p.badges.some(b => b.title === selectedBadge.value) || (selectedBadge.value === 'Discount' && typeof p.price.special === 'number')))  
+})
+
 const categoryChanged = (category) => {
-  console.log(category)
+  selectedCategory.value = category
+  // console.log(category)
 }
 const badgeChanged = (badge) => {
+  selectedBadge.value = badge
   console.log(badge)
 }
 </script>
@@ -32,7 +41,7 @@ const badgeChanged = (badge) => {
     </article>
     <article class="product-cards">
       <div class="row">
-        <template v-for="product in products" :key="product.id" class="card-and-line">
+        <template v-for="product in filteredProducts" :key="product.id" class="card-and-line">
           <ProductCard :product="product" />
           <dl class="line" />
         </template>
@@ -265,6 +274,7 @@ const badgeChanged = (badge) => {
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: url(../assets/mouse_hover.svg), auto;
 }
 }
 
