@@ -2,16 +2,23 @@
 import { ref } from 'vue'
 import ColorOptions from './ColorOptions.vue';
 import Prices from './Prices.vue'
+import BadgeBar from './BadgeBar.vue';
 
 const props = defineProps({
   product: { type: Object, required: true }
 })
+const badges = () => {
+  if(props.product.price.special === null) { return props.product.badges }
+  const title = '-' + Math.round((props.product.price.normal - props.product.price.special) / props.product.price.normal * 100).toString() + '%'
+  return [{ title, background_color: '#EB333C' }, ...props.product.badges.map(b => ({ title: b.title.toUpperCase(), background_color: b.background_color })) ]
+}
 const colorOptions = ref(props.product.variants)
 const colorChanged = (color) => {}
 </script>
 
 <template>
   <div class="card">
+    <BadgeBar :badges="badges()" />
     <div class="data">
       <figure>
         <img class="image" :src="props.product.image" :alt="props.product.name" loading="lazy">
@@ -26,31 +33,10 @@ const colorChanged = (color) => {}
     <div class="favorite">
 
     </div>
-    <div class="badges">
-
-    </div>
   </div>
 </template>
 
 <style scoped>
-.badges {
-  /* Auto layout */
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 2px;
-  position: absolute;
-  width: 60px;
-  height: 30px;
-  left: 0px;
-  top: 0px;
-  /* Inside auto layout */
-  flex: none;
-  order: 4;
-  flex-grow: 0;
-  z-index: 4;  
-}
 .favorite {
   position: absolute;
   width: 24px;
@@ -121,6 +107,7 @@ const colorChanged = (color) => {}
 }
 .card {
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   padding: 0px;
