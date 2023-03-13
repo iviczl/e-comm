@@ -1,11 +1,12 @@
 <script setup>
 const props = defineProps({
-  badges: { type: Array, defaultValue: []}
+  badges: { type: Array, defaultValue: []},
+  hovered: { type: Boolean, defaultValue: false }
 })
 </script>
 
 <template>
-  <div class="badges">
+  <div :class="[hovered ? 'badges-hover' : 'badges' ]">
     <div v-for="badge in props.badges" class="badge" :style="{ 'background-color': badge.background_color }"><span class="badge-content">{{ badge.title }}</span></div>
   </div>
 </template>
@@ -18,7 +19,7 @@ const props = defineProps({
   align-items: flex-start;
   padding: 0px;
   gap: 2px;
-  position: absolute;
+  position: relative;
   width: 60px;
   height: 30px;
   left: 0px;
@@ -27,7 +28,7 @@ const props = defineProps({
   flex: none;
   order: 4;
   flex-grow: 0;
-  z-index: 4;
+  /* z-index: 3; */
 }
 .badge {
   width: 60px;
@@ -61,12 +62,28 @@ const props = defineProps({
     align-items: flex-start;
     padding: 0px;
     gap: 2px;
-
     position: absolute;
     width: 60px;
     height: 30px;
     left: 0px;
     top: 0px;    
+    z-index: 0;  
+  }
+  .badges-hover {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 2px;
+    position: absolute;
+    align-self: flex-start;
+    width: 122px;
+    height: 30px;
+    flex: none;
+    left: 16px;
+    top: 15px;
+    flex-grow: 0;
+    z-index: 0;    
   }
 }
 </style>

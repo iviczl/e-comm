@@ -3,6 +3,9 @@ import { ref } from 'vue'
 import ColorOptions from './ColorOptions.vue';
 import Prices from './Prices.vue'
 import BadgeBar from './BadgeBar.vue';
+import Quantity from './Quantity.vue'
+import CartButton from './CartButton.vue'
+import { isMobile } from '@/modules/utils';
 
 const props = defineProps({
   product: { type: Object, required: true }
@@ -14,11 +17,15 @@ const badges = () => {
 }
 const colorOptions = ref(props.product.variants)
 const colorChanged = (color) => {}
+const hovered = ref(false)
 </script>
 
 <template>
-  <div class="card">
+  <div v-if="isMobile()" class="card-m">
     <BadgeBar :badges="badges()" />
+    <div class="favorite" :style="{ 'visibility': hovered ? 'visible' : 'hidden' }">
+      <img class="favorite-icon" src="../assets/icon_favorite.svg" />
+    </div>
     <div class="data">
       <figure>
         <img class="image" :src="props.product.image" :alt="props.product.name" loading="lazy">
@@ -26,12 +33,36 @@ const colorChanged = (color) => {}
       </figure>
       <Prices :actualPrice="props.product.price.special ?? props.product.price.normal" :oldPrice="props.product.price.special ? props.product.price.normal : null" />
     </div>
-    <ColorOptions :options="colorOptions" @color-changed="colorChanged" />
+    <ColorOptions :options="colorOptions" @color-changed="colorChanged" :style="{ 'display': hovered ? 'flex' : 'none' }" />
     <div class="bottom">
 
     </div>
-    <div class="favorite">
-
+  </div>
+  <div v-else class="card-place" @mouseover="hovered = true" @mouseleave="hovered = false">
+    <div v-if="hovered" class="card-hover">
+      <BadgeBar :badges="badges()" :hovered="true"/>
+      <div class="favorite">
+        <img class="favorite-icon" src="../assets/icon_favorite.svg" />
+      </div>
+      <div class="data-hover">
+        <img class="image" :src="props.product.image" :alt="props.product.name" loading="lazy">
+        <span class="title">{{ props.product.name }}</span>
+        <Prices :actualPrice="props.product.price.special ?? props.product.price.normal" :oldPrice="props.product.price.special ? props.product.price.normal : null" />
+        <ColorOptions :options="colorOptions" @color-changed="colorChanged" />
+      </div>
+      <div class="bottom">
+        <Quantity />
+        <CartButton />
+      </div>
+    </div>
+    <div class="card" v-else >
+      <BadgeBar :badges="badges()" />
+      <div class="data">
+        <img class="image" :src="props.product.image" :alt="props.product.name" loading="lazy">
+        <span class="title">{{ props.product.name }}</span>
+        <Prices :actualPrice="props.product.price.special ?? props.product.price.normal" :oldPrice="props.product.price.special ? props.product.price.normal : null" />
+      </div>
+      <ColorOptions :options="colorOptions" @color-changed="colorChanged" :style="{ 'display': hovered ? 'flex' : 'none' }" />
     </div>
   </div>
 </template>
@@ -47,7 +78,16 @@ const colorChanged = (color) => {}
   flex: none;
   order: 3;
   flex-grow: 0;
-  z-index: 3;  
+  /* z-index: 3;   */
+}
+.favorite-icon {
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  /* grey */
+  /* background: #8D8D8D; */
 }
 .bottom {
   display: flex;
@@ -61,7 +101,7 @@ const colorChanged = (color) => {}
   flex: none;
   order: 2;
   flex-grow: 0;
-  z-index: 2;  
+  z-index: 4;  
 }
 
 .data {
@@ -76,7 +116,7 @@ const colorChanged = (color) => {}
   flex: none;
   order: 0;
   flex-grow: 0;
-  z-index: 0;  
+  /* z-index: 0;   */
 }
 .image {
   width: 280px;
@@ -123,26 +163,13 @@ const colorChanged = (color) => {}
   flex-grow: 0;
 }
 @media (min-width: 1600px) {
-  .badges {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 2px;
-
-    position: absolute;
-    width: 60px;
-    height: 30px;
-    left: 0px;
-    top: 0px;    
-  }
   .favorite {
     position: absolute;
-    visibility: hidden;
+    /* visibility: hidden; */
     width: 24px;
     height: 24px;
-    right: 0px;
-    top: 3px;
+    right: 16px;
+    top: 18px;  
   }
   .data {
     display: flex;
@@ -156,18 +183,37 @@ const colorChanged = (color) => {}
     left: calc(50% - 357px/2);
     top: 0px;
   }
+  .data-hover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    gap: 15px;
+    /* position: absolute; */
+    width: 357px;
+    height: 494px;
+    left: calc(50% - 357px/2);
+    top: 0px;
+  }
   .bottom {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
     padding: 0px;
     gap: 20px;
-    position: absolute;
-    visibility: hidden;
+    /* position: relative; */
+    justify-content: center;
+    align-items: center;
     height: 56px;
-    left: 0px;
-    right: 0px;
-    bottom: -70px;
+    width: 357px;
+    /* top: 70px; */
+    left: 16px;
+    /* right: 16px; */
+    /* bottom: 15px; */
+    z-index: 4;
+  }
+  .card-place {
+    width: 357px;
+    height: 500px;
   }
   .card {
     box-sizing: border-box;
@@ -179,7 +225,26 @@ const colorChanged = (color) => {}
     flex: none;
     /* order: 0; */
     flex-grow: 0;
+  }
+  .card-hover {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 389px;
+    height: 600px;
+    /* left: 371px; */
+    top: -15px;
+    left: -16px;
+    /* white */
+    background: #FFFFFF;
+    /* light grey */
+    border: 1px solid #DDDDDD;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
     cursor: url(../assets/mouse_hover.svg) 9 0, auto;
+    z-index: 4;
   }
   .image {
     width: 357px;

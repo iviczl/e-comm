@@ -12,7 +12,7 @@ const changeColor = (color) => {
 </script>
 
 <template>
-  <div class="color-options" :style="{ display: props.options.length > 0 ? 'flex' : 'none'}">
+  <div class="color-options" >
     <div class="option" :class="{ 'option-selected': selectedColor === option }" :style="{ background: option }" v-for="option in options" :key="option" 
     @click="changeColor(option)"></div>
   </div>
@@ -20,19 +20,18 @@ const changeColor = (color) => {
 
 <style scoped>
 .color-options {
-  /* display: flex; */
-  margin-top: 20px;
+  display: flex;
+  /* margin-top: 20px; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 0px;
   gap: 20px;
-  display: none;
   width: 108px;
   height: 12px;
   /* Inside auto layout */
   flex: none;
-  order: 1;
+  /* order: 1; */
   flex-grow: 0;
   z-index: 1;  
 }
@@ -53,13 +52,12 @@ const changeColor = (color) => {
   /* display: flex; */
 
   .color-options {
-    margin-top: 15px;
+    /* margin-top: 15px; */
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 0px;
     gap: 12px;
-    display: none;
     width: 84px;
     height: 12px;
     /* Inside auto layout */

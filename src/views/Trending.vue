@@ -169,7 +169,8 @@ const badgeChanged = (badge) => {
   padding-right: 14.5px; */
   flex: none;
   /* order: 1; */
-  flex-grow: 0;    
+  flex-grow: 0;
+  margin: 0;
 }
 .trending {
   display: flex;
@@ -188,7 +189,7 @@ const badgeChanged = (badge) => {
   justify-content: space-between;
   align-items: flex-start;
   padding: 0px;
-  /* gap: 30px; */
+  row-gap: 40px;
   width: 1518px;
   max-width: 1518px;
   height: 500px;
