@@ -4,9 +4,14 @@ import CategoryFilter from '../components/CategoryFilter.vue';
 import BadgeFilter from '../components/BadgeFilter.vue';
 import ProductCard from '../components/ProductCard.vue'
 import { useProductStore } from '@/stores/product';
+import { onMounted } from 'vue';
 
 const store = useProductStore()
+
+onMounted(async () => {
 await store.loadProducts()
+})
+
 const categories = [
   { id: '1', title: 'Category 1' },
   { id: '2', title: 'Category 2' },
