@@ -1,10 +1,14 @@
 <script setup >
 import Trending from './views/Trending.vue'
+import { useConfigStore } from '@/stores/config.js';
+
+const config = useConfigStore()
+config.initMobileDetection()
 </script>
 
 <template>
   <main>
-      <Trending />
+    <Trending />
   </main>
 </template>
 

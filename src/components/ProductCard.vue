@@ -5,8 +5,9 @@ import Prices from './Prices.vue'
 import BadgeBar from './BadgeBar.vue';
 import Quantity from './Quantity.vue'
 import CartButton from './CartButton.vue'
-import { isMobile } from '@/modules/utils';
+import { useConfigStore } from '@/stores/config.js';
 
+const config = useConfigStore()
 const props = defineProps({
   product: { type: Object, required: true }
 })
@@ -21,21 +22,20 @@ const hovered = ref(false)
 </script>
 
 <template>
-  <div v-if="isMobile()" class="card-m">
+  <div v-if="config.isMobile" class="card">
     <BadgeBar :badges="badges()" />
-    <div class="favorite" :style="{ 'visibility': hovered ? 'visible' : 'hidden' }">
-      <img class="favorite-icon" src="../assets/icon_favorite.svg" />
+    <div class="favorite">
+        <img class="favorite-icon" src="../assets/icon_favorite.svg" />
     </div>
     <div class="data">
-      <figure>
-        <img class="image" :src="props.product.image" :alt="props.product.name" loading="lazy">
-        <figcaption class="title">{{ props.product.name }}</figcaption>
-      </figure>
+      <img class="image" :src="props.product.image" :alt="props.product.name" loading="lazy">
+      <span class="title">{{ props.product.name }}</span>
       <Prices :actualPrice="props.product.price.special ?? props.product.price.normal" :oldPrice="props.product.price.special ? props.product.price.normal : null" />
     </div>
-    <ColorOptions :options="colorOptions" @color-changed="colorChanged" :style="{ 'display': hovered ? 'flex' : 'none' }" />
+    <ColorOptions :options="colorOptions" @color-changed="colorChanged" />
     <div class="bottom">
-
+      <Quantity />
+      <CartButton />
     </div>
   </div>
   <div v-else class="card-place" @mouseover="hovered = true" @mouseleave="hovered = false">
@@ -154,7 +154,7 @@ const hovered = ref(false)
   gap: 20px;
   isolation: isolate;
   width: 280px;
-  height: 436px;
+  /* height: 436px; */
   /* white */
   background: #FFFFFF;
   /* Inside auto layout */

@@ -19,7 +19,7 @@ const props = defineProps({
   align-items: flex-start;
   padding: 0px;
   gap: 2px;
-  position: relative;
+  position: absolute;
   width: 60px;
   height: 30px;
   left: 0px;

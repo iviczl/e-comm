@@ -7,7 +7,6 @@ import { useProductStore } from '@/stores/product';
 import { onMounted } from 'vue';
 
 const store = useProductStore()
-
 onMounted(async () => {
 await store.loadProducts()
 })
@@ -66,6 +65,8 @@ const badgeChanged = (badge) => {
 .line {
   width: 280px;
   height: 1px;
+  margin: 0;
+  position: relative;
   /* light grey */
   background: #DDDDDD;
   /* Inside auto layout */
@@ -82,6 +83,25 @@ const badgeChanged = (badge) => {
   width: 320px;
   background: #FFFFFF;
 }
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 0px 60px;
+  row-gap: 25px;
+  width: 280px;
+  max-width: 280px;
+  /* height: 500px; */
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  z-index: 0;  
+/* position: absolute; */
+  left: calc(50% - 280px/2);
+  /* top: 229px;   */
+}
+
 .product-cards {
   display: flex;
   flex-direction: column;
